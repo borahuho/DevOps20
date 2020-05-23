@@ -76,7 +76,7 @@
       state: restarted
   
   - name: Initialize the Kubernetes cluster using kubeadm
-    command: kubeadm init --apiserver-advertise-address="192.168.10.155" --apiserver-cert-extra-sans="192.168.10.155"  --node-name master --pod-network-cidr=192.168.0.0/16
+    command: kubeadm init --apiserver-advertise-address="192.168.10.160" --apiserver-cert-extra-sans="192.168.10.160"  --node-name master --pod-network-cidr=192.168.0.0/16
     when: installed is changed
 
   - name: Create .kube folder
