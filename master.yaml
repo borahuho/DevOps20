@@ -1,5 +1,5 @@
 ---
-- hosts: master
+- hosts: all
   become: true
   tasks:
   - name: Install packages that allow apt to be used over HTTPS
@@ -38,9 +38,9 @@
     notify:
       - docker status
 
-  - name: Add kuber user to docker group
+  - name: Add vagrant user to docker group
     user:
-      name: kuber
+      name: vagrant
       group: docker
 
   - name: Disable swap
@@ -80,25 +80,23 @@
     when: installed is changed
 
   - name: Create .kube folder
-    become: true
-    become_user: kuber
+    become: false
     file:
-      path: /home/kuber/.kube
+      path: /home/vagrant/.kube
       state: directory
       mode: 0755
 
   - name: Copy admin.conf file
-    copy: remote_src=True src=/etc/kubernetes/admin.conf dest=/home/kuber/.kube/config
+    copy: remote_src=True src=/etc/kubernetes/admin.conf dest=/home/vagrant/.kube/config
 
   - name: Change admin.conf owner
     file:
-      path: /home/kuber/.kube/config
-      owner: kuber
-      group: kuber
+      path: /home/vagrant/.kube/config
+      owner: vagrant
+      group: vagrant
     
   - name: Install calico pod network
-    become: true
-    become_user: kuber
+    become: false
     command: kubectl apply -f https://docs.projectcalico.org/v3.10/manifests/calico.yaml
 
   - name: Generate join command
