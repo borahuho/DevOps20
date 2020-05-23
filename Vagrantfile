@@ -18,7 +18,7 @@ Vagrant.configure('2') do |config|
         vb.cpus = 2
     end
 
-    config.vm.define "master", primary: do |machine1|
+    config.vm.define "master", primary: true do |machine1|
         machine1.vm.host_name = "master.local"
         machine1.vm.network "private_network", ip: "192.168.10.160"
         machine1.vm.provision "shell", inline: $useraddscript
@@ -31,7 +31,7 @@ Vagrant.configure('2') do |config|
         end
     end
 
-    config.vm.define "worker1", primary: do |machine2|
+    config.vm.define "worker1", primary: false do |machine2|
         machine2.vm.host_name = "worker1.local"
         machine2.vm.network "private_network", ip: "192.168.10.161"
         machine2.vm.provision "shell", inline: $useraddscript
@@ -43,7 +43,7 @@ Vagrant.configure('2') do |config|
             ansible.compatibility_mode = '2.0'
         end
     end
-	    config.vm.define "worker2", primary: do |machine3|
+	    config.vm.define "worker2", primary: false do |machine3|
         machine3.vm.host_name = "worker2.local"
         machine3.vm.network "private_network", ip: "192.168.10.162"
         machine3.vm.provision "shell", inline: $useraddscript
